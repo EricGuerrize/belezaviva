@@ -1,14 +1,35 @@
-// Simulação de análise de pele
-export function analyzeSkin(imageBase64) {
-  // Simula uma análise de pele com valores baseados na imagem
-  // Em produção, isso seria uma chamada para uma API ou edge function
-  
+// Análise de pele - pode usar API real ou simulação
+import { supabase } from './supabase'
+
+// Análise usando Edge Function (quando disponível)
+export async function analyzeSkin(imageBase64) {
+  // Tenta usar edge function se Supabase estiver configurado
+  if (supabase) {
+    try {
+      const { data, error } = await supabase.functions.invoke('analyze-skin', {
+        body: { imageBase64 },
+      })
+
+      if (!error && data) {
+        return {
+          ...data,
+          image: imageBase64,
+          improvedImage: imageBase64,
+        }
+      }
+    } catch (error) {
+      console.warn('Edge function não disponível, usando simulação:', error)
+    }
+  }
+
+  // Fallback: Análise simulada melhorada
+  // Em produção, isso seria substituído por análise real de API
   return {
     hydration: 28 + Math.floor(Math.random() * 15),
     elasticity: 39 + Math.floor(Math.random() * 15),
     texture: 32 + Math.floor(Math.random() * 15),
     image: imageBase64,
-    improvedImage: imageBase64, // Será substituído pela edge function
+    improvedImage: imageBase64,
   }
 }
 
@@ -95,4 +116,3 @@ export function generateMotivationalMessage(analysis, userName) {
     return `${userName || 'Você'}, sua pele já está em bom estado! Com os cuidados certos, podemos elevar ainda mais sua qualidade e brilho natural.`
   }
 }
-

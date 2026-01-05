@@ -48,7 +48,7 @@ export default function AnalyzingPage() {
     const performAnalysis = async () => {
       const image = userImage || ''
       try {
-        const analysis = analyzeSkin(image)
+        const analysis = await analyzeSkin(image)
         let improvedImage = image
 
         if (image) {
