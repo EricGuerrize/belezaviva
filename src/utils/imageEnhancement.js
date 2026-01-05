@@ -1,6 +1,12 @@
 import { supabase } from './supabase'
 
 export async function enhanceImage(imageBase64, goal, areas) {
+  // Se o Supabase não estiver configurado, retorna a imagem original
+  if (!supabase) {
+    console.warn('Supabase não configurado. Retornando imagem original.')
+    return imageBase64
+  }
+
   try {
     console.log('Calling enhance-image function...')
     
@@ -29,4 +35,3 @@ export async function enhanceImage(imageBase64, goal, areas) {
     return imageBase64
   }
 }
-
