@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 
 function MetricBar({ label, value, color }) {
@@ -113,11 +113,10 @@ export default function ProblemsPage() {
     <div className="screen-container bg-background pb-32">
       <div className="text-center mb-6 animate-fade-in">
         <h1 className="text-xl font-bold text-foreground mb-2">
-          Plano personalizado com 100% de compatibilidade
+          Beleza Viva plan with 100% fit
         </h1>
         <p className="text-muted-foreground text-sm">
-          Vamos conquistar a pele dos sonhos. Mostraremos como construir uma
-          rotina eficaz e ajudaremos você nessa jornada.
+          Let's get dream skin, we will show how to build effective routine, help to pick the right products and assist you on this journey
         </p>
       </div>
 
@@ -147,16 +146,16 @@ export default function ProblemsPage() {
         </div>
         <div className="flex-1 flex flex-col justify-center">
           <MetricBar
-            label="Hidratação"
+            label="Hydration"
             value={metrics.hydration}
             color="blue"
           />
           <MetricBar
-            label="Elasticidade"
+            label="Elasticity"
             value={metrics.elasticity}
             color="purple"
           />
-          <MetricBar label="Textura" value={metrics.texture} color="green" />
+          <MetricBar label="Texture" value={metrics.texture} color="green" />
         </div>
       </div>
 
@@ -187,4 +186,3 @@ export default function ProblemsPage() {
     </div>
   )
 }
-

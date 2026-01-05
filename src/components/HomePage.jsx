@@ -17,7 +17,7 @@ export default function HomePage() {
         const base64 = event.target?.result
         if (base64) {
           setUserImage(base64.toString())
-          navigate('/objetivo')
+          navigate('/analyzing')
         }
       }
       reader.readAsDataURL(file)

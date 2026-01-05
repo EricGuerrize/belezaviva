@@ -38,19 +38,11 @@ export default function ResultsPage() {
       elasticity: 39,
       texture: 32,
     }
+    // Garantir melhorias significativas como no exemplo
     return {
-      hydration: Math.min(
-        94,
-        current.hydration + 60 + Math.floor(Math.random() * 10)
-      ),
-      elasticity: Math.min(
-        88,
-        current.elasticity + 42 + Math.floor(Math.random() * 8)
-      ),
-      texture: Math.min(
-        92,
-        current.texture + 55 + Math.floor(Math.random() * 10)
-      ),
+      hydration: Math.min(94, current.hydration + 66),
+      elasticity: Math.min(88, current.elasticity + 49),
+      texture: Math.min(92, current.texture + 60),
     }
   })
 
@@ -93,8 +85,7 @@ export default function ResultsPage() {
 
       <div className="text-center mb-6 animate-fade-in">
         <h1 className="text-xl font-bold text-foreground">
-          {userName ? `${userName}, veja` : 'Veja'} a versão mais radiante da
-          sua pele
+          Get the most radiant version of your skin
         </h1>
       </div>
 
@@ -112,17 +103,17 @@ export default function ResultsPage() {
           </div>
           <div className="px-1">
             <MetricBar
-              label="Hidratação"
+              label="Hydration"
               value={currentMetrics.hydration}
               color="blue"
             />
             <MetricBar
-              label="Elasticidade"
+              label="Elasticity"
               value={currentMetrics.elasticity}
               color="purple"
             />
             <MetricBar
-              label="Textura"
+              label="Texture"
               value={currentMetrics.texture}
               color="green"
             />
@@ -141,17 +132,17 @@ export default function ResultsPage() {
           </div>
           <div className="px-1">
             <MetricBar
-              label="Hidratação"
+              label="Hydration"
               value={improvedMetrics.hydration}
               color="blue"
             />
             <MetricBar
-              label="Elasticidade"
+              label="Elasticity"
               value={improvedMetrics.elasticity}
               color="purple"
             />
             <MetricBar
-              label="Textura"
+              label="Texture"
               value={improvedMetrics.texture}
               color="green"
             />
@@ -179,4 +170,3 @@ export default function ResultsPage() {
     </div>
   )
 }
-

@@ -7,15 +7,15 @@ import { enhanceImage } from '../utils/imageEnhancement'
 import { toast } from 'sonner'
 
 const steps = [
-  { label: 'Detectando rosto', icon: '◉' },
-  { label: 'Analisando pele', icon: '◎' },
-  { label: 'Medindo hidratação', icon: '◈' },
-  { label: 'Avaliando elasticidade', icon: '◇' },
-  { label: 'Gerando resultado', icon: '◆' },
+  { label: 'Detectando rosto', icon: '●' },
+  { label: 'Analisando pele', icon: '●' },
+  { label: 'Medindo hidratação', icon: '●' },
+  { label: 'Avaliando elasticidade', icon: '●' },
+  { label: 'Gerando resultado', icon: '●' },
 ]
 
 const messages = [
-  '+50.000 mulheres já tiveram sua autoestima renovada com nosso método',
+  '50.000+ mulheres já tiveram sua autoestima renovada com Beleza Viva',
   'Leva só 5 minutos por dia',
   'Resultados visíveis em apenas 28 dias',
   'Técnicas aprovadas por dermatologistas',
@@ -71,7 +71,7 @@ export default function AnalyzingPage() {
       } catch (error) {
         console.error('Analysis error:', error)
         toast.error('Ocorreu um erro durante a análise.')
-        navigate('/areas')
+        navigate('/')
       }
     }
 
@@ -121,12 +121,12 @@ export default function AnalyzingPage() {
         <div className="absolute -top-2 -right-2 w-8 h-8 border-t-4 border-r-4 border-primary rounded-tr-lg" />
         <div className="absolute -bottom-2 -left-2 w-8 h-8 border-b-4 border-l-4 border-primary rounded-bl-lg" />
         <div className="absolute -bottom-2 -right-2 w-8 h-8 border-b-4 border-r-4 border-primary rounded-br-lg" />
-        <div className="absolute inset-0 rounded-[2rem] border-2 border-primary/30 animate-pulse" />
+        <div className="absolute inset-0 rounded-[2rem] border-2 border-primary/30" />
       </div>
 
       <div className="text-center mb-6 w-full max-w-xs">
         <h2 className="text-xl font-bold text-foreground mb-2">
-          Analisando sua pele...
+          ANALYZING YOUR SKIN
         </h2>
         <p className="text-3xl font-bold gradient-text mb-4">
           {Math.round(progress)}%
@@ -181,4 +181,3 @@ export default function AnalyzingPage() {
     </div>
   )
 }
-
