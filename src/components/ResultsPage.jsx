@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 import { generateMotivationalMessage } from '../utils/analysis'
 
-function MetricBar({ label, value, color }) {
+function MetricBar({ label, beforeValue, afterValue, color }) {
   const colorClasses = {
     blue: 'bg-beauty-blue',
     purple: 'bg-primary',
@@ -12,17 +12,30 @@ function MetricBar({ label, value, color }) {
   }
 
   return (
-    <div className="mb-3">
-      <div className="flex items-baseline gap-1 mb-1">
-        <span className="text-xl font-bold text-foreground">{value}%</span>
+    <div className="mb-4">
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-baseline gap-2">
+          <span className="text-xl font-bold text-foreground">{beforeValue}%</span>
+          <span className="text-muted-foreground">→</span>
+          <span className="text-xl font-bold text-primary">{afterValue}%</span>
+        </div>
+        <span className="text-xs text-muted-foreground">{label}</span>
       </div>
-      <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden mb-1">
-        <div
-          className={`h-full rounded-full transition-all duration-1000 ease-out ${colorClasses[color]}`}
-          style={{ width: `${value}%` }}
-        />
+      <div className="flex gap-2">
+        <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
+          <div
+            className={`h-full rounded-full transition-all duration-1000 ease-out ${colorClasses[color]}`}
+            style={{ width: `${beforeValue}%` }}
+          />
+        </div>
+        <div className="w-2" />
+        <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
+          <div
+            className={`h-full rounded-full transition-all duration-1000 ease-out ${colorClasses[color]}`}
+            style={{ width: `${afterValue}%` }}
+          />
+        </div>
       </div>
-      <span className="text-xs text-muted-foreground">{label}</span>
     </div>
   )
 }
@@ -32,30 +45,24 @@ export default function ResultsPage() {
   const { analysisResult, userImage, preferences, setIsAnalyzing, userName } =
     useApp()
 
-  const [improvedMetrics] = useState(() => {
-    const current = analysisResult || {
-      hydration: 28,
-      elasticity: 39,
-      texture: 32,
-    }
-    // Garantir melhorias significativas como no exemplo
-    return {
-      hydration: Math.min(94, current.hydration + 66),
-      elasticity: Math.min(88, current.elasticity + 49),
-      texture: Math.min(92, current.texture + 60),
-    }
-  })
-
   useEffect(() => {
     setIsAnalyzing(false)
   }, [setIsAnalyzing])
 
+  // Os números do "antes" são os mesmos da etapa de problemas
   const currentMetrics = analysisResult || {
     hydration: 28,
     elasticity: 39,
     texture: 32,
     image: userImage || '',
     improvedImage: userImage || '',
+  }
+
+  // Os números do "depois" aumentam significativamente
+  const improvedMetrics = {
+    hydration: Math.min(94, currentMetrics.hydration + 66),
+    elasticity: Math.min(88, currentMetrics.elasticity + 49),
+    texture: Math.min(92, currentMetrics.texture + 60),
   }
 
   const originalImage = userImage || currentMetrics.image
@@ -85,7 +92,7 @@ export default function ResultsPage() {
 
       <div className="text-center mb-6 animate-fade-in">
         <h1 className="text-xl font-bold text-foreground">
-          Get the most radiant version of your skin
+          {userName ? `${userName}, ` : ''}Get the most radiant version of your skin
         </h1>
       </div>
 
@@ -101,23 +108,6 @@ export default function ResultsPage() {
               Antes
             </div>
           </div>
-          <div className="px-1">
-            <MetricBar
-              label="Hydration"
-              value={currentMetrics.hydration}
-              color="blue"
-            />
-            <MetricBar
-              label="Elasticity"
-              value={currentMetrics.elasticity}
-              color="purple"
-            />
-            <MetricBar
-              label="Texture"
-              value={currentMetrics.texture}
-              color="green"
-            />
-          </div>
         </div>
         <div className="space-y-3">
           <div className="relative">
@@ -130,24 +120,29 @@ export default function ResultsPage() {
               Depois
             </div>
           </div>
-          <div className="px-1">
-            <MetricBar
-              label="Hydration"
-              value={improvedMetrics.hydration}
-              color="blue"
-            />
-            <MetricBar
-              label="Elasticity"
-              value={improvedMetrics.elasticity}
-              color="purple"
-            />
-            <MetricBar
-              label="Texture"
-              value={improvedMetrics.texture}
-              color="green"
-            />
-          </div>
         </div>
+      </div>
+
+      {/* Métricas lado a lado com seta */}
+      <div className="bg-card rounded-2xl p-4 border border-border mb-6 animate-fade-in">
+        <MetricBar
+          label="Hydration"
+          beforeValue={currentMetrics.hydration}
+          afterValue={improvedMetrics.hydration}
+          color="blue"
+        />
+        <MetricBar
+          label="Elasticity"
+          beforeValue={currentMetrics.elasticity}
+          afterValue={improvedMetrics.elasticity}
+          color="purple"
+        />
+        <MetricBar
+          label="Texture"
+          beforeValue={currentMetrics.texture}
+          afterValue={improvedMetrics.texture}
+          color="green"
+        />
       </div>
 
       <div className="card-beauty bg-card mb-6 animate-fade-in">
