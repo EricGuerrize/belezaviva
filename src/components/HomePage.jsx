@@ -27,20 +27,36 @@ export default function HomePage() {
     }
   }
 
-  const handleCameraClick = () => {
-    // No mobile, o input com capture="environment" abre a câmera diretamente
-    // No desktop, tenta usar o componente de câmera com preview
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
-    
-    if (isMobile && cameraInputRef.current) {
-      // Mobile: usa input com capture que abre câmera nativa
-      cameraInputRef.current.click()
-    } else if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      // Desktop: mostra componente de câmera com preview
-      setShowCamera(true)
+  const handleCameraClick = async () => {
+    // Sempre tenta mostrar o componente de câmera primeiro
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      try {
+        // Verifica se consegue acessar a câmera
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true })
+        stream.getTracks().forEach(track => track.stop()) // Para o stream de teste
+        setShowCamera(true)
+      } catch (error) {
+        console.error('Erro ao acessar câmera:', error)
+        // Se não conseguir, tenta usar input com capture
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+        if (isMobile && cameraInputRef.current) {
+          cameraInputRef.current.click()
+        } else if (fileInputRef.current) {
+          fileInputRef.current.click()
+        } else {
+          toast.error('Não foi possível acessar a câmera. Tente fazer upload de uma foto.')
+        }
+      }
     } else {
-      // Fallback: usa input normal
-      fileInputRef.current?.click()
+      // Fallback: usa input
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+      if (isMobile && cameraInputRef.current) {
+        cameraInputRef.current.click()
+      } else if (fileInputRef.current) {
+        fileInputRef.current.click()
+      } else {
+        toast.error('Câmera não disponível neste dispositivo.')
+      }
     }
   }
 
@@ -133,12 +149,12 @@ export default function HomePage() {
               onChange={handleFileSelect}
             />
             
-            {/* Input específico para câmera no mobile */}
+            {/* Input específico para câmera no mobile (fallback) */}
             <input
               ref={cameraInputRef}
               type="file"
               accept="image/*"
-              capture="environment"
+              capture="user"
               className="hidden"
               onChange={handleFileSelect}
             />
