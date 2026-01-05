@@ -20,7 +20,7 @@ export default function HomePage() {
         const base64 = event.target?.result
         if (base64) {
           setUserImage(base64.toString())
-          navigate('/analyzing')
+          navigate('/objetivo')
         }
       }
       reader.readAsDataURL(file)
@@ -47,7 +47,7 @@ export default function HomePage() {
   const handleCameraCapture = (imageData) => {
     setUserImage(imageData)
     setShowCamera(false)
-    navigate('/analyzing')
+    navigate('/objetivo')
   }
 
   const handleUploadClick = () => {

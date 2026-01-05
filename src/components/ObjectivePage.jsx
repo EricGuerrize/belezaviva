@@ -4,40 +4,19 @@ import { useApp } from '../context/AppContext'
 
 const objectives = [
   {
-    id: 'hydration',
-    title: 'Hidratação',
-    description: 'Melhorar a hidratação e suavidade da pele',
-    icon: '💧',
-  },
-  {
-    id: 'anti-aging',
-    title: 'Anti-idade',
-    description: 'Reduzir linhas e sinais de envelhecimento',
+    id: 'wrinkles',
+    title: 'Ficar livre das rugas',
     icon: '✨',
   },
   {
-    id: 'brightness',
-    title: 'Brilho',
-    description: 'Uniformizar o tom e aumentar o brilho',
+    id: 'sagging',
+    title: 'Reduzir a flacidez',
+    icon: '💪',
+  },
+  {
+    id: 'both',
+    title: 'Escolher ambas as opções',
     icon: '🌟',
-  },
-  {
-    id: 'acne',
-    title: 'Acne',
-    description: 'Controlar e prevenir espinhas',
-    icon: '🎯',
-  },
-  {
-    id: 'sensitivity',
-    title: 'Sensibilidade',
-    description: 'Acalmar e fortalecer a pele sensível',
-    icon: '🛡️',
-  },
-  {
-    id: 'general',
-    title: 'Cuidado Geral',
-    description: 'Manter a saúde geral da pele',
-    icon: '🌸',
   },
 ]
 
@@ -50,20 +29,18 @@ export default function ObjectivePage() {
     navigate('/areas')
   }
 
+  const handleSkip = () => {
+    navigate('/areas')
+  }
+
   return (
     <div className="screen-container bg-gradient-to-b from-beauty-pink/30 to-background">
       <div className="text-center mb-6 animate-fade-in">
-        <div className="inline-flex items-center gap-2 mb-4">
-          <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center">
-            <Sparkles className="w-6 h-6 text-primary-foreground" />
-          </div>
-          <span className="text-2xl font-bold gradient-text">Beleza Viva</span>
-        </div>
-        <h1 className="text-xl font-bold text-foreground mb-2">
+        <h1 className="text-2xl font-bold text-foreground mb-2">
           Qual é o seu principal objetivo?
         </h1>
         <p className="text-muted-foreground text-sm">
-          Selecione o que mais deseja melhorar na sua pele
+          Escolha o que mais te incomoda hoje
         </p>
       </div>
 
@@ -72,34 +49,32 @@ export default function ObjectivePage() {
           <button
             key={objective.id}
             onClick={() => handleSelect(objective.id)}
-            className={`card-beauty text-left transition-all duration-300 ${
+            className={`card-beauty text-left transition-all duration-300 border ${
               preferences.goal === objective.id
-                ? 'border-2 border-primary shadow-beauty'
-                : 'border border-border hover:border-primary/50'
+                ? 'border-primary bg-primary/5'
+                : 'border-border hover:border-primary/50'
             }`}
           >
             <div className="flex items-center gap-4">
-              <div className="text-4xl">{objective.icon}</div>
+              <div className="text-3xl">{objective.icon}</div>
               <div className="flex-1">
-                <h3 className="font-semibold text-foreground mb-1">
+                <span className="font-medium text-foreground text-lg">
                   {objective.title}
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  {objective.description}
-                </p>
+                </span>
               </div>
-              <ArrowRight
-                className={`w-5 h-5 transition-transform ${
-                  preferences.goal === objective.id
-                    ? 'text-primary translate-x-1'
-                    : 'text-muted-foreground'
-                }`}
-              />
             </div>
           </button>
         ))}
       </div>
+
+      <div className="text-center">
+        <button
+          onClick={handleSkip}
+          className="text-muted-foreground text-sm underline hover:text-foreground transition-colors"
+        >
+          Pular por agora
+        </button>
+      </div>
     </div>
   )
 }
-
